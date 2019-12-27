@@ -1,16 +1,32 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle: "UWaterloo undergrad, aspiring Data Scientist, <br> Die hard Leafs & Raptors fan."
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+<div id="aboutme-section">
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+Hi, my name is <strong>Dylan Lee</strong>, I am a converted actuarial science student now hoping to pursue a career in Tech as a Data Scientist and currently living in Toronto, Canada.
 
-What else do you need?
+<br>
 
-### my history
+<p class="about-text">
+<span class="fa fa-briefcase about-icon"></span>
+I most recently interned at <a target="_blank" href="https://www.ritual.co/">Ritual</a> as a Data Scientist focusing on in-app experimentation, customer acquisition and engagement, and partner retention. 
+I also have prior internship experience in different roles at various companies: Audit Consultant at <a target="_blank" href="https://www.ey.com/en_gl">Ernst & Young</a>, Actuarial Analyst at <a target="_blank" href="https://www.munichre.com/en.html">Munich Re</a>, and Actuarial Analyst at <a target="_blank" href="https://careers.intact.ca/ca/en">Intact</a>.
+</p>
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+<p class="about-text">
+<span class="fa fa-graduation-cap about-icon"></span>
+I am currently pursuing a Bachelor of Mathematics degree from the University of Waterloo, double majoring in Actuarial Science and Statistics.
+</p>
+
+<p class="about-text">
+<span class="fa fa-heart about-icon"></span>
+I'm into all major sports but follow the NBA and NHL the most, I love playing hockey and occasionally play video games too, hip-hop is my favourite genre of music, and I hope to travel the world some day. 
+</p>
+
+<p class="about-text">
+<span class="fa fa-envelope about-icon"></span>
+If you'd like to chat over coffee or connect on an opportunity, don't hesitate to send me an email <a target="_blank" href="mailto:dylan.lee_@hotmail.com">here</a>.
+</p>
