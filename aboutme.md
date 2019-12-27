@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About me
-subtitle: "I'M BOUT DAT LIFE"
+subtitle: "UWaterloo undergrad, aspiring Data Scientist, <br> die hard Leafs & Raptors fan."
 ---
 
 <div id="aboutme-section">
