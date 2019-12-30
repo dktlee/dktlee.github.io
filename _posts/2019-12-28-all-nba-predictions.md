@@ -8,8 +8,6 @@ tags: [side-project]
 comments: true
 ---
 
-## Introduction
-
 The All-NBA Team is an honour bestowed on the best players in the league after every season. The team is composed of three 5-man lineups -- a first, second, and third team. Voting is conducted by a panel of sportswritters and broadcasters around the league. 
 
 Every year, towards the end of another NBA season, the argument surrounding who's going to make the All-NBA Team is always up for discussion. There are seasons where a player's performance should guarantee him a spot on the roster by unanimous decsion (the Greak Freak in the 2018-19 campaign), but there are also cases where the decision is not so straightforward and a player might end up getting snubbed (*ahem* Bradley Beal). 
@@ -77,80 +75,5 @@ From the data, I found that All-NBA players are performing above average in the 
 
 After removing observations from the dataset for players who did not play more than 1600 minutes in a given season, the new correlation plot shows slightly stronger correlation for various stats. What I found interesting from this plot is that Turnovers have a slightly strong correlation, but I infer that turnovers might be a indicator for usage rates, and that All-NBA players have high usage rates, and with high usage rates comes more turnovers. 
 
-**Here is some bold text**
+## Modelling
 
-## Here is a secondary heading
-
-Here's a useless table:
-
-| Number | Next number | Previous number |
-| :------ |:--- | :--- |
-| Five | Six | Four |
-| Ten | Eleven | Nine |
-| Seven | Eight | Six |
-| Two | Three | One |
-
-
-How about a yummy crepe?
-
-![Crepe](https://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg)
-
-It can also be centered!
-
-![Crepe](https://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg){: .center-block :}
-
-Here's a code chunk:
-```R
-# treat names at strings
-df$Player <- as.character(df$Player)
-  # split name variable by [\\]
-  names <- strsplit(as.character(df$Player), "[\\]")
-  # reassign the clean name
-  for (i in 1:dim(df)[1]) {
-    name <- names[[i]][1]
-    df$Player[i] <- name
-  }
-```
-
-~~~
-var foo = function(x) {
-  return(x + 5);
-}
-foo(3)
-~~~
-
-And here is the same code with syntax highlighting:
-
-```javascript
-var foo = function(x) {
-  return(x + 5);
-}
-foo(3)
-```
-
-And here is the same code yet again but with line numbers:
-
-{% highlight javascript linenos %}
-var foo = function(x) {
-  return(x + 5);
-}
-foo(3)
-{% endhighlight %}
-
-## Boxes
-You can add notification, warning and error boxes like this:
-
-### Notification
-
-{: .box-note}
-**Note:** This is a notification box.
-
-### Warning
-
-{: .box-warning}
-**Warning:** This is a warning box.
-
-### Error
-
-{: .box-error}
-**Error:** This is an error box.
