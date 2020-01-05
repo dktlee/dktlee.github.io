@@ -81,14 +81,9 @@ For the case of simplicity, I implemented both linear and logistic regression mo
 
 ```R
 # treat names at strings
-lm.guard.total.reduced <- lm(TotalAllNba ~ GP + GS + MP + FGM + ThreePM + ThreePA + 
-                                           ThreePperc + TwoPM + TwoPA + TwoPperc + eFGperc + 
-                                           FTM + FTperc + DRB + AST + STL + BLK + TOV + PF, 
-                            data = guard_data_totals[which(guard_data_totals$Season != 2019), ])
+lm.guard.total.reduced <- lm(TotalAllNba ~ GP + GS + MP + FGM + ThreePM + ThreePA + ThreePperc + TwoPM + TwoPA + TwoPperc + eFGperc + FTM + FTperc + DRB + AST + STL + BLK + TOV + PF, data = guard_data_totals[which(guard_data_totals$Season != 2019), ])
 
-log.forward.total.reduced <- glm(TotalAllNba ~ MP + Age + FGperc + ThreePperc + TwoPM +eFGperc +                                                FTM + DRB + TRB + AST + STL + BLK + TOV + PTS,
-                                data = forward_data_totals[which(forward_data_totals$Season != 2019), ], 
-                                family = binomial(link = "logit"))
+log.forward.total.reduced <- glm(TotalAllNba ~ MP + Age + FGperc + ThreePperc + TwoPM +eFGperc + FTM + DRB + TRB + AST + STL + BLK + TOV + PTS, data = forward_data_totals[which(forward_data_totals$Season != 2019), ], family = binomial(link = "logit"))
 ```
 
 ## Accuracy
