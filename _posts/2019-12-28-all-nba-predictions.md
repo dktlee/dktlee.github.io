@@ -165,4 +165,4 @@ Second, I'd like to implement the use of other player data. Basketball Reference
 
 Lastly, the ultimate goal for this project is to be able to predict the number of All-NBA selections for any given player at any point in their NBA career. I would like to estimate the total number of All-NBA selections remaining in different player's careers.
 
-Thanks for reading. If you're interest, my entire codebase is available <a target="_blank" href="https://github.com/dktlee/dylanlee/tree/master/all-nba_predictions">here</a>.   
+Thanks for reading. If you're interested, my entire codebase is available <a target="_blank" href="https://github.com/dktlee/dylanlee/tree/master/all-nba_predictions">here</a>.   
