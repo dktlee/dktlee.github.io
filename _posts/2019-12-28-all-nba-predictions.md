@@ -12,22 +12,22 @@ The All-NBA Team is an honour bestowed on the best players in the league after e
 
 Every year, towards the end of another NBA season, the argument surrounding who's going to make the All-NBA Team is always up for discussion. There are seasons where a player's performance should guarantee him a spot on the roster by unanimous decision (the Greek Freak in the 2018-19 campaign), but there are also cases where the decision is not so straightforward and a player might end up getting snubbed (*ahem* Bradley Beal). 
 
-To assist me in the debate, I created a model to help me predict who will make the All-NBA Team based on their performance after a given season. Going one step further, I also forecasted players' stats to determine how many *more* All-NBA Team selections a certain player has remaining in their career. 
+To assist me in the debate, I created a model to help me predict who will make the All-NBA Team based on their performance after a given season. 
 
 ## Data Collection
 
-Data was collected from the fan-beloved third-party Basketball Reference website. Basketball Reference has a comprehensive database of historical player data and the site allows me to directly download CSV files. I only considered All-NBA selections from the 1999-00 season and onwards, so I collected data for all players from the beginning of the 1999-00 season up until the end of the 2018-19 season. The raw data consists of player season total stats and is well formatted so only minor data processing is required. I also combined the dataset with information on a player's draft year to calculate how long he has been in the NBA, and whether or not a player made the All-NBA Team for that given season. 
+Data was collected from the fan-beloved third-party Basketball Reference <a target="_blank" href="https://www.basketball-reference.com/">website</a>. Basketball Reference has a comprehensive database of historical player data and the site allows me to directly download CSV files. I only considered All-NBA selections from the 1999-00 season and onwards. The raw data I collected consists of player season total stats from the 1999-00 season up until the 2018-19 season. The data is well formatted so only minor data processing is required. I also combined the dataset with information on a player's draft year to calculate how long he has been in the NBA, and whether or not a player made the All-NBA Team for that given season. 
 
 ![Data: Player Totals](/img/big-imgs/bball_ref_2018_19_player_totals.png)
-*Basketball Reference: Player Totals for 2018-19 season*
+*Basketball Reference: Player Totals for 2018-19 season - snippet of what the raw data looks like*
 
 ## Data Processing
 
 The dataset is nice and consistently formated for all seasons, but there are a couple minor subtleties that I needed to sort out. 
 
-First, I removed any asterisks from player names if found. This is rather straightforward since I can replace any instances of a '*' with an empty string ''. 
+First, I removed any asterisks from player names if found. Asterisks exist in the dataset because there might be a footnote on the Basketball Reference website, but I don't need that information. This is rather straightforward since I can replace any instances of a `'*'` with an empty string `''`. 
 
-Second, the formatting of a player's name needed to be fixed. The raw data comes in the format of 'Chris Paul\paulch01' when really we just want 'Chris Paul'. This is to handle the odd chance that two players have the same exact name. I solved this issue with some simple text cleaning in R:
+Second, the formatting of a player's name needed to be fixed. The raw data comes in the format of `'Chris Paul\paulch01'` when really we just want `'Chris Paul'`. Bball-ref does this to handle the odd chance that two players have the same exact name. I solved this issue with some simple text cleaning in R:
 ```R
 # treat names at strings
 df$Player <- as.character(df$Player)
@@ -40,7 +40,12 @@ df$Player <- as.character(df$Player)
   }
 ```
 
-Last, I noticed that there are rows of data for players' total (TOT) stats that aggregated their single season stats for all the teams they played for that year (i.e. when a player gets traded in the middle of the season). I decided to remove these *TOT* rows and consider each individual team a player played for in a given season as independent data points. This did not seem to be a problem because there were only two instances of this occurring in the last 20 seasons where a player was traded mid-season and still wound up making the All-NBA Team (Chauncy Billups traded from Detroit to Denver in the 2008-09 season and Dikembe Mutumbo traded from Atlanta to Philadelphia in the 2000-01).
+Last, I noticed that there are rows of data for players' total (TOT) stats that aggregated their single season stats for all the teams they played for that year (i.e. when a player gets traded in the middle of the season). Here's a screenshot of what that looks like in the data: 
+
+![Data: Player Totals TOT row](/img/big-imgs/chauncey.png)
+*Data point where Tm = TOT to aggregate Chauncey's 2009 season stats from the two teams he played for that year*
+
+I decided to remove these *TOT* rows and consider each individual team a player played for in a given season as independent data points. This did not seem to be a problem because there were only two instances of this occurring in the last 20 seasons where a player was traded mid-season and still wound up making the All-NBA Team (Chauncey Billups traded from Detroit to Denver in the 2008-09 season and Dikembe Mutombo traded from Atlanta to Philadelphia in the 2000-01).
 
 From here, I looped through each year in our dataset, loaded in the CSV for that year, cleaned and processed the data, and finally merged the results into one larger dataset. The final dataset consists of the players' total stats (in the format shown above), the players' draft year, and whether or not that player made the All-NBA Team, for every season. 
 
@@ -51,19 +56,19 @@ Before modelling, I did some summary analysis on the large dataset. First, a sim
 ![Data: Player Totals Summary](/img/big-imgs/data_summary_player_totals.png)
 *Data Summary: Player Totals from 1999 - 2019*
 
-As expected, the data shows that there are a large range of values for any given statistic, so I decided to normalize each statistic for each season. Simply, for each season we have in the dataset, I divided each stat for every player by the given season's max. This means that each stat now lies in the range (0,1) and the stat leader having the max value of 1.
+As expected, the data shows that there are a large range of values for any given statistic, so I decided to normalize each statistic for each season. Simply, for each season we have in the dataset, I divided each stat for every player by the given season's max. This means that each stat now lies in the range (0,1) and the stat leader will have the max value of 1.
 
-Also, note that we have nearly 8300 observations with 35 columns each. So to get a sense of which columns might serve as useful predictors I created a correlation plot to see which stats correlated most with making the All-NBA Team. After that, I modelled the distribution of each statistic, comparing stats of players who made the All-NBA-Team vs players who did not. Let's take a look at these results: 
+To get a sense of which columns might serve as useful predictors I created a correlation plot to see which stats correlated most with making the All-NBA Team. After that, I modelled the distribution of each statistic, comparing stats of players who made the All-NBA-Team vs players who did not. Let's take a look at these results: 
 
 ![Correlation Plot: Player Totals vs All-NBA](/img/big-imgs/correlation_plot.png)
 *Correlation Plot: Player Totals vs All-NBA*
 
-The correlation plot shows slightly positive correlation for making the All-NBA Team with Games Started, Field Goals Made, Field Goals Attempted, Free Throws Made, Free Throws Attempted, Rebounds, Assists, Steals, Blocks, and Turnovers, and even stronger correlation in the scoring stats.
+The correlation plot shows slightly positive correlation for making the All-NBA Team with Games Started, Field Goals Made, Field Goals Attempted, Free Throws Made, Free Throws Attempted, Rebounds, Assists, Steals, Blocks, and Turnovers, and even stronger correlation for the scoring stats.
 
 ![Distribution Plot: Minutes Played vs All-NBA](/img/big-imgs/minutes_played.png)
 *Distribution Plot: Minutes Played vs All-NBA*
 
-By modelling the distribution of each statistic comparing ALl-NBA players against the rest of the league, I might be able to find ways to filter out data points that could potentially dilute the model's ability to showcase elite players. I do not want to flood the model with bench / rotational players who aren't in consideration for All-NBA honours. I used Minutes Played during a season as a proxy and only considered players who play at least 1600 minutes in a season. 
+Also, note that we have nearly 8300 observations with 35 columns each. By modelling the distribution of each statistic comparing All-NBA players against the rest of the league, I might be able to find ways to filter out data points that could potentially dilute the model's ability to showcase elite players. I do not want to flood the model with bench / rotational players who aren't in consideration for All-NBA honours. I used Minutes Played during a season as a proxy and only considered players who play at least 1600 minutes in a season. 
 
 ![Distribution Plot: eFG% vs All-NBA](/img/big-imgs/efg.png)
 *Distribution Plot: eFG% vs All-NBA*
@@ -77,18 +82,27 @@ After removing observations from the dataset for players who did not play more t
 
 ## Modelling
 
-For the case of simplicity, I implemented both linear and logistic regression models to predict All-NBA players. I used the `step()` function to identify model with the most relevant variables in the player season totals dataset. Also, since the All-NBA Team honours players based on their position: guard, forward, and center, I decided to fit separate models for each position. The code looks something like this:
+I implemented both linear and logistic regression models to predict All-NBA players. I used the `step()` function to identify model with the most relevant variables in the player season totals dataset. Also, since the All-NBA Team honours players based on their position: guard, forward, and center, I decided to fit separate models for each position. The code looks something like this:
 
 ```R
 # treat names at strings
-lm.guard.total.reduced <- lm(TotalAllNba ~ GP + GS + MP + FGM + ThreePM + ThreePA + ThreePperc + TwoPM + TwoPA + TwoPperc + eFGperc + FTM + FTperc + DRB + AST + STL + BLK + TOV + PF, data = guard_data_totals[which(guard_data_totals$Season != 2019), ])
+lm.guard.total.reduced <- lm(TotalAllNba ~ GP + GS + MP + FGM + ThreePM + 
+                                           ThreePA + ThreePperc + TwoPM + 
+                                           TwoPA + TwoPperc + eFGperc + 
+                                           FTM + FTperc + DRB + AST + STL 
+                                           + BLK + TOV + PF, 
+                             data = guard_data_totals[which(guard_data_totals$Season != 2019), ])
 
-log.forward.total.reduced <- glm(TotalAllNba ~ MP + Age + FGperc + ThreePperc + TwoPM +eFGperc + FTM + DRB + TRB + AST + STL + BLK + TOV + PTS, data = forward_data_totals[which(forward_data_totals$Season != 2019), ], family = binomial(link = "logit"))
+log.forward.total.reduced <- glm(TotalAllNba ~ MP + Age + FGperc + 
+                                               ThreePperc + TwoPM +eFGperc 
+                                               + FTM + DRB + TRB + AST + 
+                                               STL + BLK + TOV + PTS, 
+                                data = forward_data_totals[which(forward_data_totals$Season != 2019), ], family = binomial(link = "logit"))
 ```
 
 ## Accuracy
 
-I am using data from the 1999-00 season up until the 2017-18 season to predict All-NBA players for the end of the 2018-19 season using the stats from that season. Now, to measure model performance, I first make predictions using these models, and then compared them to the actual results to see how accurate these predictions turned out to be. To do this, I created two functions to do both tasks:
+I used the data from the 1999-00 season up until the 2017-18 season to predict All-NBA players for the end of the 2018-19 season. Now, to measure model performance, I first make predictions using these models, and then compared them to the actual results to see how accurate these predictions turned out to be. To do this, I created two functions to do both tasks:
 
 ```R
 # Predict All-NBA Response
@@ -119,7 +133,7 @@ The results show that the linear model correctly predicted 12/15 All-NBA players
 
 ## Cross Validation
 
-With the simpler models, I cross-validated to see which model performs the best out of the two (linear vs logistic). Using the 2000-2019 data, I will test the model accuracy by using all the years, except for 1, to train the model and predict All-NBA players for the 1 season left out of the training data set, and do so for each and every year.
+With the simpler models, I cross-validated to see which model performs the best out of the two (linear vs logistic). Using the 1999-2019 data, I will test the model accuracy by using all the years, except for 1, to train the model and predict All-NBA players for the 1 season left out of the training data set, and do so for each and every year.
 
 ![Leave One Out Cross Validation](/img/big-imgs/cross_vald.png)
 *Leave One Out Cross Validation: All-NBA Prediction Model Accuracy* 
@@ -142,3 +156,13 @@ For the 2018-19 NBA season, the model predicted that the All-NBA Team will consi
 The model correctly predicted every All-NBA player for the 2018-19 season, except for one: the model incorrectly picked Anthony Davis as an All-NBA center, which was actually awarded to Nicola Jokić.
 
 ## Future Work
+
+While the current model is performing well, there are still many other options I'd like to consider as next steps. 
+
+First, the most obvious change would be to use more complex models than a simple logistic regression model, such as random forest.
+
+Second, I'd like to implement the use of other player data. Basketball Reference has information on players per game stats and advance stats that might have more power in prediction than players' total season stats. 
+
+Lastly, the ultimate goal for this project is to be able to predict the number of All-NBA selections for any given player at any point in their NBA career. I would like to estimate the total number of All-NBA selections remaining in different player's careers.
+
+Thanks for reading. If you're interest, my entire codebase is available <a target="_blank" href="https://github.com/dktlee/dylanlee/tree/master/all-nba_predictions">here</a>.   
