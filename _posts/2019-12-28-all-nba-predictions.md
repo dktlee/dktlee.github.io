@@ -51,14 +51,14 @@ From here, I looped through each year in our dataset, loaded in the CSV for that
 
 ## Data Analysis
 
-Before modelling, I did some summary analysis on the large dataset. First, a simple `summary()` in R with out total player stats for all seasons: 
+Before modeling, I did some summary analysis on the large dataset. First, a simple `summary()` in R with out total player stats for all seasons: 
 
 ![Data: Player Totals Summary](/img/big-imgs/data_summary_player_totals.png)
 *Data Summary: Player Totals from 1999 - 2019*
 
 As expected, the data shows that there are a large range of values for any given statistic, so I decided to normalize each statistic for each season. Simply, for each season we have in the dataset, I divided each stat for every player by the given season's max. This means that each stat now lies in the range (0,1) and the stat leader will have the max value of 1.
 
-To get a sense of which columns might serve as useful predictors I created a correlation plot to see which stats correlated most with making the All-NBA Team. After that, I modelled the distribution of each statistic, comparing stats of players who made the All-NBA-Team vs players who did not. Let's take a look at these results: 
+To get a sense of which columns might serve as useful predictors I created a correlation plot to see which stats correlated most with making the All-NBA Team. After that, I modeled the distribution of each statistic, comparing stats of players who made the All-NBA-Team vs players who did not. Let's take a look at these results: 
 
 ![Correlation Plot: Player Totals vs All-NBA](/img/big-imgs/correlation_plot.png)
 *Correlation Plot: Player Totals vs All-NBA*
@@ -68,7 +68,7 @@ The correlation plot shows slightly positive correlation for making the All-NBA 
 ![Distribution Plot: Minutes Played vs All-NBA](/img/big-imgs/minutes_played.png)
 *Distribution Plot: Minutes Played vs All-NBA*
 
-Also, note that we have nearly 8300 observations with 35 columns each. By modelling the distribution of each statistic comparing All-NBA players against the rest of the league, I might be able to find ways to filter out data points that could potentially dilute the model's ability to showcase elite players. I do not want to flood the model with bench / rotational players who aren't in consideration for All-NBA honours. I used Minutes Played during a season as a proxy and only considered players who play at least 1600 minutes in a season. 
+Also, note that we have nearly 8300 observations with 35 columns each. By modeling the distribution of each statistic comparing All-NBA players against the rest of the league, I might be able to find ways to filter out data points that could potentially dilute the model's ability to showcase elite players. I do not want to flood the model with bench / rotational players who aren't in consideration for All-NBA honours. I used Minutes Played during a season as a proxy and only considered players who play at least 1600 minutes in a season. 
 
 ![Distribution Plot: eFG% vs All-NBA](/img/big-imgs/efg.png)
 *Distribution Plot: eFG% vs All-NBA*
@@ -80,7 +80,7 @@ From the data, I found that All-NBA players are performing above average in the 
 
 After removing observations from the dataset for players who did not play more than 1600 minutes in a given season, the new correlation plot shows slightly stronger correlation for various stats. What I found interesting from this plot is that Turnovers have a slightly strong correlation, but I infer that turnovers might be a indicator for usage rates, and that All-NBA players have high usage rates, and with high usage rates comes more turnovers. 
 
-## Modelling
+## Modeling
 
 I implemented both linear and logistic regression models to predict All-NBA players. I used the `step()` function to identify model with the most relevant variables in the player season totals dataset. Also, since the All-NBA Team honours players based on their position: guard, forward, and center, I decided to fit separate models for each position. The code looks something like this:
 
