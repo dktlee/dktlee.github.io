@@ -18,7 +18,7 @@ To assist me in the debate, I created a model to help me predict who will make t
 
 Data was collected from the fan-beloved third-party Basketball Reference <a target="_blank" href="https://www.basketball-reference.com/">website</a>. Basketball Reference has a comprehensive database of historical player data and the site allows me to directly download CSV files. I only considered All-NBA selections from the 1999-00 season and onwards. The raw data I collected consists of player season total stats from the 1999-00 season up until the 2018-19 season. The data is well formatted so only minor data processing is required. I also combined the dataset with information on a player's draft year to calculate how long he has been in the NBA, and whether or not a player made the All-NBA Team for that given season. 
 
-![Data: Player Totals](/img/big-imgs/bball_ref_2018_19_player_totals.png)
+![Data: Player Totals](/img/bball_ref_2018_19_player_totals.png)
 *Basketball Reference: Player Totals for 2018-19 season - snippet of what the raw data looks like*
 
 ## Data Processing
@@ -42,7 +42,7 @@ df$Player <- as.character(df$Player)
 
 Last, I noticed that there are rows of data for players' total (TOT) stats that aggregated their single season stats for all the teams they played for that year (i.e. when a player gets traded in the middle of the season). Here's a screenshot of what that looks like in the data: 
 
-![Data: Player Totals TOT row](/img/big-imgs/chauncey.png)
+![Data: Player Totals TOT row](/img/chauncey.png)
 *Data point where Tm = TOT to aggregate Chauncey's 2009 season stats from the two teams he played for that year*
 
 I decided to remove these *TOT* rows and consider each individual team a player played for in a given season as independent data points. This did not seem to be a problem because there were only two instances of this occurring in the last 20 seasons where a player was traded mid-season and still wound up making the All-NBA Team (Chauncey Billups traded from Detroit to Denver in the 2008-09 season and Dikembe Mutombo traded from Atlanta to Philadelphia in the 2000-01).
@@ -53,29 +53,29 @@ From here, I looped through each year in our dataset, loaded in the CSV for that
 
 Before modeling, I did some summary analysis on the large dataset. First, a simple `summary()` in R with out total player stats for all seasons: 
 
-![Data: Player Totals Summary](/img/big-imgs/data_summary_player_totals.png)
+![Data: Player Totals Summary](/img/data_summary_player_totals.png)
 *Data Summary: Player Totals from 1999 - 2019*
 
 As expected, the data shows that there are a large range of values for any given statistic, so I decided to normalize each statistic for each season. Simply, for each season we have in the dataset, I divided each stat for every player by the given season's max. This means that each stat now lies in the range (0,1) and the stat leader will have the max value of 1.
 
 To get a sense of which columns might serve as useful predictors I created a correlation plot to see which stats correlated most with making the All-NBA Team. After that, I modeled the distribution of each statistic, comparing stats of players who made the All-NBA-Team vs players who did not. Let's take a look at these results: 
 
-![Correlation Plot: Player Totals vs All-NBA](/img/big-imgs/correlation_plot.png)
+![Correlation Plot: Player Totals vs All-NBA](/img/correlation_plot.png)
 *Correlation Plot: Player Totals vs All-NBA*
 
 The correlation plot shows slightly positive correlation for making the All-NBA Team with Games Started, Field Goals Made, Field Goals Attempted, Free Throws Made, Free Throws Attempted, Rebounds, Assists, Steals, Blocks, and Turnovers, and even stronger correlation for the scoring stats.
 
-![Distribution Plot: Minutes Played vs All-NBA](/img/big-imgs/minutes_played.png)
+![Distribution Plot: Minutes Played vs All-NBA](/img/minutes_played.png)
 *Distribution Plot: Minutes Played vs All-NBA*
 
 Also, note that we have nearly 8300 observations with 35 columns each. By modeling the distribution of each statistic comparing All-NBA players against the rest of the league, I might be able to find ways to filter out data points that could potentially dilute the model's ability to showcase elite players. I do not want to flood the model with bench / rotational players who aren't in consideration for All-NBA honours. I used Minutes Played during a season as a proxy and only considered players who play at least 1600 minutes in a season. 
 
-![Distribution Plot: eFG% vs All-NBA](/img/big-imgs/efg.png)
+![Distribution Plot: eFG% vs All-NBA](/img/efg.png)
 *Distribution Plot: eFG% vs All-NBA*
 
 From the data, I found that All-NBA players are performing above average in the counting stats compared to the rest of the league, which is a fairly trivial solution. However, a more interesting discovery is that the distribution of the different shooting percentages (FG%, 3P%, 2P%, eFG%, and FT%) don't vary much. Above, we see that the distribution of effective Field Goal Percentage for All-NBA players follows a very similar shape compared to the rest of the league. In fact, All-NBA players have similar distributions in all shooting percentages compared to the rest of the league, and are not actually shooting consistently better or more efficiently. 
 
-![Filtered Correlation Plot: Player Totals vs All-NBA](/img/big-imgs/filtered_correlation_plot.png)
+![Filtered Correlation Plot: Player Totals vs All-NBA](/img/filtered_correlation_plot.png)
 *Filtered Data Correlation Plot: Player Totals vs All-NBA*
 
 After removing observations from the dataset for players who did not play more than 1600 minutes in a given season, the new correlation plot shows slightly stronger correlation for various stats. What I found interesting from this plot is that Turnovers have a slightly strong correlation, but I infer that turnovers might be a indicator for usage rates, and that All-NBA players have high usage rates, and with high usage rates comes more turnovers. 
@@ -126,7 +126,7 @@ calcAccuracy <- function(all_nba_players) {
 
 The first function makes predictions for each player, then sorts the players from highest predicted odds in each season to lowest. I then grab the top 6 guards, the top 6 forwards, and the top 3 centers from the sorted prediction lists to form the 15 player All-NBA Team. The second function compares the chosen All-NBA players to the actual All-NBA players from the 2018-19 season and returns the accuracy. Let's compare the results for the linear and regression models (full model with all variables and the reduced model): 
 
-![2018-19 All-NBA Prediction: Model Accuracy](/img/big-imgs/2019_pred.png)
+![2018-19 All-NBA Prediction: Model Accuracy](/img/2019_pred.png)
 *2018-19 All-NBA Prediction: Model Accuracy* 
 
 The results show that the linear model correctly predicted 12/15 All-NBA players and the logistic model correctly predicted 14/15 All-NBA players. Also, it's worth noting that the reduced models performed the same as the full models, thus, I will use the reduced models going forward. 
@@ -135,7 +135,7 @@ The results show that the linear model correctly predicted 12/15 All-NBA players
 
 With the simpler models, I cross-validated to see which model performs the best out of the two (linear vs logistic). Using the 1999-2019 data, I will test the model accuracy by using all the years, except for 1, to train the model and predict All-NBA players for the 1 season left out of the training data set, and do so for each and every year.
 
-![Leave One Out Cross Validation](/img/big-imgs/cross_vald.png)
+![Leave One Out Cross Validation](/img/cross_vald.png)
 *Leave One Out Cross Validation: All-NBA Prediction Model Accuracy* 
 
 I predicted the All-NBA guards, forwards, and centers separately for each year, and then took the average of the model's accuracy respectively. The logistic models out performed the linear models for each position: the guard model accurately predicting the All-NBA guards 79.2% of the time, the forward model accurately predicting the All-NBA forwards 76.7% of the time, and the center model accurately predicting the All-NBA centers 75% of the time, for each season between 2000-2019.
