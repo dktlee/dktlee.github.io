@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: Forecasting NBA Player Stats
 ---
 Taking inspiration from <a target="_blank" href="https://www.basketball-reference.com/">Basketball Reference </a>, I implemented a Simple Projection System to forecast the stats for a given player in the NBA for a brand new season based on stats from prior seasons.
