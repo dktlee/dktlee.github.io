@@ -28,15 +28,15 @@ Let me walk you through the method by projecting <a target="_blank" href="https:
 *Data for Example*
 
 
-[//]: #
-[//]: # ## Future Work
-[//]: # 
-[//]: # While the current model is performing well, there are still many other options I'd like to consider as next steps. 
-[//]: # 
-[//]: # First, the most obvious change would be to use more complex models than a simple logistic regression model, such as random forest.
-[//]: # 
-[//]: # Second, I'd like to implement the use of other player data. Basketball Reference has information on players per game stats and advance stats that might have more power in prediction than players' total season stats. 
-[//]: # 
-[//]: # Lastly, the ultimate goal for this project is to be able to predict the number of All-NBA selections for any given player at any point in their NBA career. I would like to estimate the total number of All-NBA selections remaining in different player's careers.
-[//]: # 
-[//]: # Thanks for reading. If you're interested, my entire codebase is available <a target="_blank" href="https://github.com/dktlee/dylanlee/tree/master/all-nba_predictions">here</a>.   
+
+## Future Work
+
+While the current model is performing well, there are still many other options I'd like to consider as next steps. 
+
+First, the most obvious change would be to use more complex models than a simple logistic regression model, such as random forest.
+
+Second, I'd like to implement the use of other player data. Basketball Reference has information on players per game stats and advance stats that might have more power in prediction than players' total season stats. 
+
+Lastly, the ultimate goal for this project is to be able to predict the number of All-NBA selections for any given player at any point in their NBA career. I would like to estimate the total number of All-NBA selections remaining in different player's careers.
+
+Thanks for reading. If you're interested, my entire codebase is available <a target="_blank" href="https://github.com/dktlee/dylanlee/tree/master/all-nba_predictions">here</a>.   
