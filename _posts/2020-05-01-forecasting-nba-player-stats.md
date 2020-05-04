@@ -26,40 +26,34 @@ Let me walk you through the method by projecting <a target="_blank" href="https:
 ![Data: Kyle Lowry Assists](/img/kyle_lowry_ast.png)
 *Example Data: Kyle Lowry's MP and AST numbers for the last 3 seasons*
 
-**Assigning weights for the prior seasons**
-
+**Assigning weights for the prior seasons:**
 Forecasting for the 2019-20 season, I used the following weights for the prior 3 seasons:
 - 2018-19: `6`
 - 2017-18: `3`
 - 2016-17: `1`
 
-**Kyle Lowry's weighted sum of minutes played from the past 3 seasons**
-
+**Kyle Lowry's weighted sum of minutes played from the past 3 seasons:**
 `6 * 2213 + 3 * 2510 + 1 * 2244 = 23052` minutes played.
 
-**Kyle Lowry's weighted sum of assists from the past 3 seasons**
-
+**Kyle Lowry's weighted sum of assists from the past 3 seasons:**
 `6 * 564 + 3 * 537 + 1 * 417 = 5412` assists.
 
-**Calculate the weighted sum of assists for a league average player playing Lowry's minutes, then scale to 1000 minutes**
-
+**Calculate the weighted sum of assists for a league average player playing Lowry's minutes, then scale to 1000 minutes:**
 `6 * 2213 * (60483 / 594450) + 3 * 2510 * (57136 / 593850) + 1 * 2244 * (55660 / 594900) = 2293.46` assists. Scaled to 1000 minutes this is `1000 * (2293.46 / 23052) = 99.49` assists.
 
-**Calculate Lowry's projected per-36 minute value**
-
+**Calculate Lowry's projected per-36 minute value:**
 `(5412 + 99.49) / (23052 + 1000) * 36 = 8.249` assists per 36 minutes.
 
-**Calculate Age Adjustment**
-
+**Calculate age adjustment:**
 If a player is younger than 28, then the age adjustment is equal to `(28 - age) * 0.004`. If the player is older than 28, then the age adjustment is equal to `(28 - age) * 0.002`. 
 Lowry is 33 years old during the 2019-20 season, so his age adjustment is `(28 - 33) * 0.002 = -0.01`.
 
-**Apply age adjustment to Lowry's projected per-36 minute value**
-
+**Apply age adjustment:**
 `(1 - 0.01) * 8.249 = 8.167` assists per 36 minutes projected for the 2019-20 season.
 
-Considering that the 2019-20 season hasn't concluded, Kyle Lowry's actual Assists per 36 minutes is `7.6` after 52 games played this season. Not too far off from our projection!
+Considering that the 2019-20 season hasn't concluded yet, Kyle Lowry's actual Assists per 36 minutes is `7.6` after 52 games played this season. Not too far off from our projection!
 
+## Additional Comments
 
 A few notes about the Simple Projection System:
 - The sign of the age adjustment is reversed for the following stats: `FG Missed, 3 Pointers Missed, FT Missed, turnovers, and personal fouls`
