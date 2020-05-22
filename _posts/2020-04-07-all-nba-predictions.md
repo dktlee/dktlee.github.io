@@ -6,6 +6,7 @@ gh-repo: dktlee/dylanlee/all-nba_predictions
 gh-badge: [star, fork, follow]
 tags: [side-project]
 comments: true
+published: true
 ---
 
 The All-NBA Team is an honour bestowed on the best players in the league after every season. The team is composed of three 5-man lineups -- a first, second, and third team. Voting is conducted by a panel of sports writers and broadcasters around the league. 
