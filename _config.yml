@@ -27,7 +27,7 @@ navbar-links:
     - Predicting Life Satisfaction: "https://github.com/dktlee/stat441-W20-project"
     - Marketing Campaign Analysis: "https://github.com/dktlee/marketing_campaign_analysis"
 
-  
+
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
 avatar: "/img/avatar-icon.JPG"
@@ -75,7 +75,7 @@ social-network-links:
   github: dktlee
 #  reddit: yourname
   linkedin: dylanktlee
-  twitter: leedylan_
+  twitter: _dylanlee
 #  xing: yourname
 #  stackoverflow: "yourname"
 #  snapchat: yourname
